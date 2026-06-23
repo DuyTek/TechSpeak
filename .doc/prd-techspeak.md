@@ -37,7 +37,6 @@ Success metrics (to validate post-launch):
 
 - **No server-side component.** No API calls to any backend. All data is embedded in the extension.
 - **No content script injection.** The extension does not interact with or modify any webpage content.
-- **No context menu or text-selection trigger.** User must click the extension icon to open the popup.
 - **No user-submitted terms or editing.** The glossary is read-only; users cannot add, edit, or delete terms.
 - **No sync across devices.** `chrome.storage.local` only — not `chrome.storage.sync`.
 - **No dark mode.** Single light theme only in this version.
@@ -77,6 +76,9 @@ Sara encounters "LGTM" in a GitHub PR comment. She opens TechSpeak and searches 
 - **FR-13:** A close icon in all views closes the popup.
 - **FR-14:** The bottom tab bar allows switching between Search, Glossary, Saved, and Today tabs at any time.
 - **FR-15:** The active tab is visually highlighted in teal; inactive tabs are muted gray.
+- **FR-16:** A "Define with TechSpeak" item appears in Chrome's right-click menu whenever the user has text selected on any webpage.
+- **FR-17:** Clicking the menu item opens the TechSpeak popup and navigates directly to the Definition view if the selected text matches a known term (exact or partial match on term name).
+- **FR-18:** If no term matches the selected text, the popup opens with the Search tab active and the search field pre-filled with the selected text.
 
 ---
 
@@ -88,7 +90,7 @@ Sara encounters "LGTM" in a GitHub PR comment. She opens TechSpeak and searches 
 - **NFR-4 — Accessibility:** Interactive elements must be reachable by keyboard. Focus must be set to the search input when Search tab opens.
 - **NFR-5 — MV3 compliance:** No inline event handlers (onclick=""), no eval(), no remote script loading. All JS in separate .js files.
 - **NFR-6 — CSP:** Manifest must declare a `content_security_policy` for the popup that allows Google Fonts stylesheet if fonts are loaded that way, but no `unsafe-inline` for scripts.
-- **NFR-7 — No permissions beyond storage:** `permissions` array in manifest must only include `"storage"`.
+- **NFR-7 — Minimal permissions:** `permissions` array in manifest must only include `"storage"` and `"contextMenus"`. No other permissions are permitted.
 
 ---
 

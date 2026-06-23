@@ -97,3 +97,15 @@
 **Child Task IDs:** TSK-012
 
 ---
+
+## EP-009 — Context Menu Integration
+
+**Business Value:** Lets users look up terms directly from any webpage without first opening the popup manually — reducing friction for the core "I just saw this word in the wild" use case.
+**Scope Summary:** `manifest.json` contextMenus permission, service worker registration and click handler, popup pending-lookup detection at startup.
+**Success Criteria:** Right-clicking selected text on any webpage shows "Define with TechSpeak"; clicking it opens the popup on the matching Definition view (or pre-filled Search if no match).
+**Estimated Size:** S
+**Priority:** High
+**Dependencies:** EP-001, EP-003, EP-006
+**Child Task IDs:** TSK-013, TSK-014, TSK-015
+
+---

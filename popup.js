@@ -185,6 +185,17 @@ const _termMap = new Map(TERMS.map(t => [t.id, t]));
 const getTerm = id => _termMap.get(id);
 const getRelated = ids => (ids || []).map(id => getTerm(id)).filter(Boolean);
 
+function findBestMatch(query) {
+  const q = query.toLowerCase();
+  return (
+    TERMS.find(t => t.term.toLowerCase() === q) ||
+    TERMS.find(t => t.id === q.replace(/\s+/g, '-')) ||
+    TERMS.find(t => q.includes(t.term.toLowerCase())) ||
+    TERMS.find(t => t.term.toLowerCase().includes(q)) ||
+    null
+  );
+}
+
 // ── State ─────────────────────────────────────────────────────────────────────
 
 const state = {
@@ -698,9 +709,29 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderSavedView();
   renderTodayView();
 
-  // Default view
-  showView('search');
-  document.getElementById('search-input').focus();
+  // Context menu pending lookup — navigate directly if text was passed from selection
+  let handledByLookup = false;
+  try {
+    const { pendingLookup } = await chrome.storage.local.get('pendingLookup');
+    if (pendingLookup) {
+      await chrome.storage.local.remove('pendingLookup');
+      const match = findBestMatch(pendingLookup.trim());
+      if (match) {
+        await navigateTo(match.id, 'search');
+        handledByLookup = true;
+      } else {
+        state.query = pendingLookup.trim();
+        document.getElementById('search-input').value = state.query;
+        renderSearchView();
+      }
+    }
+  } catch (e) {
+    console.error('[TechSpeak] pendingLookup:', e);
+  }
+  if (!handledByLookup) {
+    showView('search');
+    document.getElementById('search-input').focus();
+  }
 
   // Tab bar
   document.querySelectorAll('.tab').forEach(btn => {
