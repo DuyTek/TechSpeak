@@ -52,7 +52,7 @@ button {
   cursor: pointer;
 }
 
-p, h1, h2, h3 {
+p, h1, h2, h3, blockquote {
   margin: 0;
 }
 
