@@ -1,0 +1,2 @@
+- [TechSpeak Project Context](project-techspeak.md) — MV3 Chrome extension, locked tech decisions, file structure, state shape
+- [TechSpeak Open Questions](project-techspeak-open-questions.md) — 3 unresolved stakeholder questions (fonts, ToD rotation, icon art)
